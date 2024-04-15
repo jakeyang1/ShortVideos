@@ -1,8 +1,10 @@
 package org.example.utils;
 
+import org.example.dto.UserDTO;
+
 public class UserHolder {
 
-    private static final ThreadLocal<> tl = new ThreadLocal<>();
+    private static final ThreadLocal<UserDTO> tl = new ThreadLocal<>();
 
     public static void saveUser(UserDTO user){ tl.set(user);
     }
