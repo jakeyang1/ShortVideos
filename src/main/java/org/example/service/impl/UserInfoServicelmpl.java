@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.entity.UserInfo;
 import org.example.mapper.UserInfoMapper;
 import org.example.service.IUserInfoService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserInfoServicelmpl extends ServiceImpl<UserInfoMapper, UserInfo> implements IUserInfoService{
 }

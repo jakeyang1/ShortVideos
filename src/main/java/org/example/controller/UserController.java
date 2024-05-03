@@ -2,6 +2,7 @@ package org.example.controller;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.dto.LoginFromDTO;
 import org.example.dto.Result;
 import org.example.entity.UserInfo;
 import org.example.service.IUserInfoService;
@@ -24,10 +25,18 @@ public class UserController {
     private IUserInfoService userInfoService;
 
 
-    @PostMapping("code")
+    @PostMapping("code")//Send verification code
     public Result sendCode(@RequestParam("phone") String phone, HttpSession session){
 
-        return Result.fail("功能未完成");
+
+        return userService.sendCode(phone,session);
+
+    }
+
+    @PostMapping("login")
+    public Result login(@RequestBody LoginFromDTO loginFrom, HttpSession session){
+
+    return userService.login(loginFrom, session);
     }
 
     @GetMapping("/logout")

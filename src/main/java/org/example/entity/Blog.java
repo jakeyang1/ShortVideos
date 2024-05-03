@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Data//automatic generation get or set
 @EqualsAndHashCode(callSuper = false)//automatic generation equals or hashcode
 @Accessors(chain = true) //
-@TableName("tb-blog")//linked database table
+@TableName("tb_blog")//linked database table
 public class Blog implements Serializable {
 
        private static final long serialVersionUID = 1L;
@@ -23,9 +23,9 @@ public class Blog implements Serializable {
        @TableId(value = "id", type = IdType.AUTO)
        private  Long  id;
 
-       private  Long shopid;
+       private  Long shopId;
 
-       private  Long userid;
+       private  Long userId;
 
        @TableField(exist = false)
        private  String icon;
@@ -34,7 +34,7 @@ public class Blog implements Serializable {
        private  String name;
 
        @TableField(exist = false)
-       private  Boolean islike;
+       private  Boolean isLike;
 
        private  String title;
 

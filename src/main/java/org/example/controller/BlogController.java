@@ -33,7 +33,7 @@ public class BlogController {
     public Result saveBlog(Blog blog){
 
       UserDTO user =   UserHolder.getUser();
-      blog.setUserid(user.getId());
+      blog.setUserId(user.getId());
 
       blogService.save(blog);
 
@@ -68,7 +68,7 @@ public class BlogController {
 
         List<Blog> records = page.getRecords();
         records.forEach(blog -> {
-            Long userId = blog.getUserid();
+            Long userId = blog.getUserId();
             User user = userService.getById(userId);
             blog.setName(user.getNickName());
             blog.setIcon(user.getIcon());

@@ -2,6 +2,10 @@ package org.example.utils;
 
 public  abstract class RegexPatterns {//复制
 
+
+    /**
+     * Regex Phone
+     */
     public static final String PHONE_REGEX = "^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\\d{8}$";
     /**
      * 邮箱正则

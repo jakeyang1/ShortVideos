@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Shop-Type")
+@RequestMapping("/shop-type")
 public class ShopTypeController {
 
     @Resource
