@@ -4,9 +4,12 @@ package org.example.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.LoginFromDTO;
 import org.example.dto.Result;
+import org.example.dto.UserDTO;
+import org.example.entity.User;
 import org.example.entity.UserInfo;
 import org.example.service.IUserInfoService;
 import org.example.service.IUserService;
+import org.example.utils.UserHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -25,7 +28,7 @@ public class UserController {
     private IUserInfoService userInfoService;
 
 
-    @PostMapping("code")//Send verification code
+    @PostMapping("code")
     public Result sendCode(@RequestParam("phone") String phone, HttpSession session){
 
 
@@ -47,7 +50,8 @@ public class UserController {
 
     @GetMapping("/me")
     public Result me() {
-        return Result.fail("功能未完成");
+        UserDTO user = UserHolder.getUser();
+        return Result.ok(user);
 
     }
 

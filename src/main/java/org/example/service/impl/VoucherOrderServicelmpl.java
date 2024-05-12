@@ -7,8 +7,10 @@ import org.example.entity.VoucherOrder;
 import org.example.mapper.VoucherMapper;
 import org.example.mapper.VoucherOrderMapper;
 import org.example.service.ISeckillVoucherService;
+import org.example.service.IVerificationCodeService;
 import org.example.service.IVoucherOrderService;
 import org.example.service.IVoucherService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

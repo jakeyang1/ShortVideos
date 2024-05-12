@@ -19,7 +19,7 @@ public class ShopController {
     @GetMapping("/{id}")
     public Result queryShopById(@PathVariable("id") long id){
 
-        return Result.ok(shopService.getById(id));
+      return shopService.queryByid(id);
 
     }
 

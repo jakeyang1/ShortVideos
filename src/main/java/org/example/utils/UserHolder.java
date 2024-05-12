@@ -1,6 +1,7 @@
 package org.example.utils;
 
 import org.example.dto.UserDTO;
+import org.example.entity.User;
 
 public class UserHolder {
 
