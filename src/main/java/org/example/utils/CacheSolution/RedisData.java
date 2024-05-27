@@ -1,14 +1,12 @@
-package org.example.utils;
-
+package org.example.utils.CacheSolution;
 
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class ReidsData {
+public class RedisData {
 
     private LocalDateTime expireTime;
-
     private Object data;
 }

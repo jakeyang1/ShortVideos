@@ -35,9 +35,9 @@ public class ShopController {
     @PutMapping
     public Result updataShop(@RequestParam Shop shop){
 
-        shopService.updateById(shop);
 
-        return Result.ok();
+
+        return  shopService.update(shop);
 
     }
 

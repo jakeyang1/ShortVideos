@@ -11,11 +11,8 @@ import org.example.dto.Result;
 import org.example.dto.UserDTO;
 import org.example.entity.User;
 import org.example.mapper.UserMapper;
-import org.example.mapper.VerificationCodeMapper;
 import org.example.service.IUserService;
-import org.example.service.IVerificationCodeService;
-import org.example.utils.RegexUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.example.utils.Redis.RegexUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +21,9 @@ import javax.servlet.http.HttpSession;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import static org.example.utils.RedisConstants.*;
+import static org.example.utils.Redis.RedisConstants.*;
 import static org.example.utils.SystemConstants.USER_NICK_NAME_PREFIX;
 
 

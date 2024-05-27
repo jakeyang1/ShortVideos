@@ -12,10 +12,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.example.utils.RedisConstants.CACHE_SHOPTYPE_KEY;
+import static org.example.utils.Redis.RedisConstants.CACHE_SHOPTYPE_KEY;
 
 @Service
 public class ShopTypeServiceImpl extends ServiceImpl<ShopTypeMapper, ShopType> implements IShopTypeService {

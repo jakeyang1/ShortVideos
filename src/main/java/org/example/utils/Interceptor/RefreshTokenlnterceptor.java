@@ -1,8 +1,10 @@
-package org.example.utils;
+package org.example.utils.Interceptor;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import org.example.dto.UserDTO;
+import org.example.utils.Redis.RedisConstants;
+import org.example.utils.UserHolder;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 

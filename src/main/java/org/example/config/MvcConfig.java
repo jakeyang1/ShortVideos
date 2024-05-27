@@ -1,7 +1,7 @@
 package org.example.config;
 
-import org.example.utils.LoginInterceptor;
-import org.example.utils.RefreshTokenlnterceptor;
+import org.example.utils.Interceptor.LoginInterceptor;
+import org.example.utils.Interceptor.RefreshTokenlnterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

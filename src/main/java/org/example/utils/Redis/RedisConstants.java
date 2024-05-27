@@ -1,4 +1,4 @@
-package org.example.utils;
+package org.example.utils.Redis;
 
 public class RedisConstants {//复制
 
