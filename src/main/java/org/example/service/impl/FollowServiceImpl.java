@@ -7,5 +7,5 @@ import org.example.service.IFollowService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FollowServicelmpl extends ServiceImpl<FollowMapper, Follow> implements IFollowService {
+public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> implements IFollowService {
 }

@@ -27,6 +27,9 @@ spring:
 
 mybatis-plus:
   type-aliases-package: org.example.entity
+  mapper-locations: classpath:/mapper/*.xml
+
+
 logging:
   level:
     org.example: debug

@@ -7,5 +7,7 @@ import org.example.entity.Voucher;
 import java.util.List;
 
 public interface VoucherMapper extends BaseMapper<Voucher> {
-    List<Voucher> queryVoucherofShop(@Param("ShopId" )Long ShopId);
+    List<Voucher> queryVoucherOfShop(@Param("shopId") Long shopId);
 }
+
+

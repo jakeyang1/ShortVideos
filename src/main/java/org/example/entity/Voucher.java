@@ -23,15 +23,19 @@ public class Voucher implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private  Long id;
 
-    private Long ShopId;
+    private Long shopId;
 
     private String title;
+
+
+    private  String subTitle;
+
 
     private String rules;
 
     private Long payValue;
 
-    private Long ActualValue;
+    private Long actualValue;
 
     //优惠劵类型
     private Integer type;
@@ -46,9 +50,13 @@ public class Voucher implements Serializable {
     private LocalDateTime beginTime;
 
     @TableField(exist = false)
-    private LocalDateTime endtime;
+    private LocalDateTime endTime;
 
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
 }
+
+
+
+

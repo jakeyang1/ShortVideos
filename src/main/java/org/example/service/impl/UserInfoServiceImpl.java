@@ -7,5 +7,5 @@ import org.example.service.IUserInfoService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserInfoServicelmpl extends ServiceImpl<UserInfoMapper, UserInfo> implements IUserInfoService{
+public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> implements IUserInfoService{
 }

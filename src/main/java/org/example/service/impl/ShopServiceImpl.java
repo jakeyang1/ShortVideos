@@ -1,7 +1,5 @@
 package org.example.service.impl;
 
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.dto.Result;
 import org.example.entity.Shop;
@@ -21,7 +19,7 @@ import static org.example.utils.Redis.RedisConstants.*;
 
 
 @Service
-public class ShopServicelmpl extends ServiceImpl<ShoppMapper, Shop> implements IShopService {
+public class ShopServiceImpl extends ServiceImpl<ShoppMapper, Shop> implements IShopService {
 
 
     @Resource

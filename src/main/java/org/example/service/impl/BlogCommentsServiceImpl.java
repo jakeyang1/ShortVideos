@@ -8,5 +8,5 @@ import org.example.service.IBlogCommentsService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BlogCommentsServicelmpl extends ServiceImpl<BlogCommentMapper, BlogComments> implements IBlogCommentsService {
+public class BlogCommentsServiceImpl extends ServiceImpl<BlogCommentMapper, BlogComments> implements IBlogCommentsService {
 }

@@ -11,6 +11,5 @@ public interface IVoucherService extends IService<Voucher> {
 
     Result queryVoucherOfShop(Long ShopId);
 
-    @Transactional
     void addSeckillVoucher(Voucher voucher);
 }

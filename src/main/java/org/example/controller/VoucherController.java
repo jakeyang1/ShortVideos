@@ -24,7 +24,7 @@ public class VoucherController {
 
 
     @PostMapping("sekill")
-    public Result addSeckill(@RequestBody Voucher voucher){
+    public Result addSeckillVoucher(@RequestBody Voucher voucher){
 
         voucherService.addSeckillVoucher(voucher);
         return Result.ok(voucher.getId());
@@ -39,6 +39,7 @@ public class VoucherController {
 
     }
 
-}
 
+
+}
 
