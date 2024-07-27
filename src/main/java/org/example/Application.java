@@ -14,8 +14,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableAspectJAutoProxy(exposeProxy = true)
 @MapperScan("org.example.mapper")
 @SpringBootApplication
-public class Application
-{
+public class Application {
     public static void main( String[] args )
     {
         SpringApplication.run(Application.class, args);

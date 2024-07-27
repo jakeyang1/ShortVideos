@@ -21,15 +21,20 @@ import java.util.UUID;
 @RequestMapping("upload")
 public class UploadController {
 
+
+
     @GetMapping("blog")
-    public Result uploadImage(@RequestParam("file")MultipartFile image) {
+    public Result uploadImage(@RequestParam("file") MultipartFile image) {
 
         try {
 
+            //Gets the original file name
             String originalFilename = image.getOriginalFilename();
+            //Generate new file name
             String fileName = createNewFileName(originalFilename);
+            //save file
             image.transferTo(new File(SystemConstants.IMAGE_UPLOAD_DIR, fileName));
-
+            //return done result
             log.debug("文件返回成功， {}", fileName);
 
             return Result.ok(fileName);

@@ -26,27 +26,32 @@ public class BlogController {
     @Resource
     private IBlogService blogService;
 
-    @Resource
-    private IUserService userService;
+
 
     @PostMapping
-    public Result saveBlog(Blog blog){
+    public Result saveBlog(@RequestBody Blog blog){
 
-      UserDTO user =   UserHolder.getUser();
-      blog.setUserId(user.getId());
+        //Get log-in user
+        UserDTO user = UserHolder.getUser();
+        blog.setUserId(user.getId());
 
-      blogService.save(blog);
+        //save user blog
+        blogService.save(blog);
 
-      return Result.ok(blog.getId());
+        //Return id
+        return Result.ok(blog.getId());
+
 
     }
 
    @PutMapping("/like/{id}")
     public Result likeBlog(@PathVariable("id") Long id){
 
-        blogService.update().setSql("like = likeed + 1").eq("id", id).update();
-        return Result.ok();
+//        //change  gvie a like quantity  => (update tb_blog set liked = liked + 1 where  id = ？)
+//        blogService.update().setSql("liked = liked + 1").eq("id", id).update();
+//        return Result.ok();
 
+       return  blogService.likeBlog(id);
    }
 
    @GetMapping("/of/me")
@@ -60,25 +65,15 @@ public class BlogController {
 
    }
 
-   @GetMapping("hot")
+    @GetMapping("/hot")
     public Result queryHotBlog(@RequestParam(value = "current", defaultValue = "1") Integer current) {
-        Page<Blog> page = blogService.query()
-                .orderByDesc("liked")
-                .page(new Page<>(current, SystemConstants.MAX_PAGE_SIZE));
+        return blogService.queryHotBlog(current);
+    }
 
-        List<Blog> records = page.getRecords();
-        records.forEach(blog -> {
-            Long userId = blog.getUserId();
-            User user = userService.getById(userId);
-            blog.setName(user.getNickName());
-            blog.setIcon(user.getIcon());
-        });
-
-           return  Result.ok(records);
-
-
+    @GetMapping("/{id}")
+    public Result queryBlogById (@PathVariable("id") Long id) {
+        return blogService.queryBlogById(id);
     }
 
 
-
-}
+   }

@@ -25,6 +25,8 @@ public class Blog implements Serializable {
 
        private  Long shopId;
 
+
+
        private  Long userId;
 
        @TableField(exist = false)
@@ -33,8 +35,12 @@ public class Blog implements Serializable {
        @TableField(exist = false)
        private  String name;
 
+
+       //Like field：Like or not（个人设置点赞字段：是否点赞）
        @TableField(exist = false)
        private  Boolean isLike;
+
+
 
        private  String title;
 
