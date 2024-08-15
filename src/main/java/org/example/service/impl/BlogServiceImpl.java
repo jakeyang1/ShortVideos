@@ -86,8 +86,8 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
         Long userId = user.getId();
         //2:Determine if the logged-in user has already clicked the like button
         String key = "blog:liked:" + blog.getId();
-        Boolean isMember = stringRedisTemplate.opsForSet().isMember(key, userId.toString());
-        blog.setIsLike(BooleanUtil.isTrue(isMember));
+        Double score = stringRedisTemplate.opsForZSet().score(key, userId.toString());
+        blog.setIsLike(score != null);
 
     }
 
@@ -98,9 +98,10 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
 
         //2:Determine if the logged-in user has already clicked the like button
         String key = BLOG_LIKED_KEY + id;
-        Boolean isMember = stringRedisTemplate.opsForSet().isMember(key, userId.toString());
+        Double score = stringRedisTemplate.opsForZSet().score(key, userId.toString());
 
-        if (BooleanUtil.isFalse(isMember)) {
+
+        if (score == null) {
 
             //3:If you don't like it, you get permission to like it
             //3.1: like number + 1
@@ -108,7 +109,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
 
             //3.2: save user to redis set assemble
             if (isSuccess == true) {
-                stringRedisTemplate.opsForSet().add(key, userId.toString());
+                stringRedisTemplate.opsForZSet().add(key, userId.toString(),System.currentTimeMillis());
 
             }
         } else {
@@ -120,7 +121,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
 
             //4.2:set assemble  remove user
             if (isSuccess) {
-                stringRedisTemplate.opsForSet().remove(key, userId.toString());
+                stringRedisTemplate.opsForZSet().remove(key, userId.toString());
 
 
             }
@@ -132,7 +133,24 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
 
     @Override
     public Result queryBlogLikes(Long id) {
-        return null;
+        String key = BLOG_LIKED_KEY + id;
+        
+        //1.query liked user for top five
+        Set<String> top5 = stringRedisTemplate.opsForZSet().range(key, 0, 4);
+        if(top5 == null || top5.isEmpty()) {
+            return  Result.ok(Collections.emptyList());
+        }
+
+        //2.Resolve the queried user id
+        List<Long> ids = top5.stream().map(Long::valueOf).collect(Collectors.toList());
+
+        //3.Query the user based on the user id
+       // List<User> users = userService.listByIds(ids);//NO god method ，no safe
+        List<UserDTO> userDTOS = userService.listByIds(ids).stream()
+                                 .map(user -> BeanUtil.copyProperties(user, UserDTO.class))
+                                 .collect(Collectors.toList());
+        //4.return/
+           return Result.ok(userDTOS);
     }
 
     @Override

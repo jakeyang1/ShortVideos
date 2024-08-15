@@ -1,6 +1,7 @@
 package org.example.controller;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dto.LoginFromDTO;
 import org.example.dto.Result;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.print.DocFlavor;
 import javax.servlet.http.HttpSession;
+
+import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
 
 @Slf4j
 @RestController
@@ -67,6 +70,21 @@ public class UserController {
         info.setUpdateTime(null);
 
         return  Result.ok(info);
+    }
+
+    @GetMapping("/{id}")
+    public Result queryUserById(@PathVariable("id") Long userId){
+        //1,query User
+        User user = userService.getById(userId);
+
+        if(user == null) {
+            return Result.ok("用户不存在");
+        }
+
+        UserDTO userDTO = BeanUtil.copyProperties(user, UserDTO.class);
+
+        //return
+        return Result.ok(userDTO);
     }
 
 

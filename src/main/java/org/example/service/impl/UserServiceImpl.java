@@ -53,7 +53,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         /**
          * send code Module incomplete
          */
-         log.debug("宝宝，你的验证码是:{}", code);
+         log.debug("可恶，你的验证码是:{}", code);
          return Result.ok();
 
     }

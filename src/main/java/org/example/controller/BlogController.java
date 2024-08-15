@@ -54,6 +54,12 @@ public class BlogController {
        return  blogService.likeBlog(id);
    }
 
+
+    @GetMapping("/likes/{id}")
+    public Result queryBlogLikes(@PathVariable("id") Long id){
+
+        return  blogService.queryBlogLikes(id);
+    }
    @GetMapping("/of/me")
     public Result queryMyBlog(@RequestParam(value = "current", defaultValue = "1") Integer current) {
 
@@ -73,6 +79,19 @@ public class BlogController {
     @GetMapping("/{id}")
     public Result queryBlogById (@PathVariable("id") Long id) {
         return blogService.queryBlogById(id);
+    }
+
+    @GetMapping("/of/user")
+    public Result queryByUserId(
+            @RequestParam(value = "current", defaultValue = "1") Integer current,
+            @RequestParam("id") Long id) {
+
+        // query the blog list of the user
+        Page<Blog> page = blogService.query().eq("user_id", id).page(new Page<>(current, SystemConstants.MAX_PAGE_SIZE));
+
+        //Gets the current page data
+        List<Blog> records = page.getRecords();
+        return Result.ok(records);
     }
 
 
