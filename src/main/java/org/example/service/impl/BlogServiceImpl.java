@@ -40,6 +40,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
+    @Resource
+    private IFollowService followService;
+
     @Override
     public Result queryHotBlog(Integer current) {
         //According to user query
@@ -143,24 +146,102 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements IB
 
         //2.Resolve the queried user id
         List<Long> ids = top5.stream().map(Long::valueOf).collect(Collectors.toList());
+        String idstr = StrUtil.join(",",ids);
 
         //3.Query the user based on the user id
        // List<User> users = userService.listByIds(ids);//NO god method ，no safe
-        List<UserDTO> userDTOS = userService.listByIds(ids).stream()
-                                 .map(user -> BeanUtil.copyProperties(user, UserDTO.class))
-                                 .collect(Collectors.toList());
+        List<UserDTO> userDTOS = userService.query().in("id",ids).last("ORDER BY FIELD(id,"  + idstr + ")").list()
+                .stream()
+                .map(user -> BeanUtil.copyProperties(user, UserDTO.class))
+                .collect(Collectors.toList());
         //4.return/
            return Result.ok(userDTOS);
     }
 
     @Override
     public Result saveBlog(Blog blog) {
-        return null;
+
+
+        //Get log-in user
+        UserDTO user = UserHolder.getUser();
+        blog.setUserId(user.getId());
+
+        //save user blog
+        boolean isSuccess = save(blog);
+        if(!isSuccess){
+                System.out.println("笔记无法保存");
+        }
+
+        //Query the author's followers
+        List<Follow> follows = followService.query().eq("follow_user_id", user.getId()).list();
+
+        //Push note ids to followers
+        for(Follow follow : follows) {
+            //Get the id of the user who is following
+            Long userId = follow.getUserId();
+
+            //Push note ids
+            String key = BLOG_LIKED_KEY + userId;
+            stringRedisTemplate.opsForZSet().add(key, blog.getId().toString(), System.currentTimeMillis());
+        }
+
+        //Return id
+        return Result.ok(blog.getId());
     }
 
     @Override
     public Result queryBlogOfFollow(Long max, Integer offset) {
-        return null;
+        //Get log-in user
+        Long userId = UserHolder.getUser().getId();
+
+        //query inbox
+        String key = FEED_KEY + userId;
+
+        Set<ZSetOperations.TypedTuple<String>> typedTuples = stringRedisTemplate.opsForZSet()
+                                .reverseRangeByScoreWithScores(key, 0, max, offset, 2);
+        //Nonempty judgment
+        if(typedTuples == null || typedTuples.isEmpty()) {
+            return Result.ok();
+        }
+
+        //parse data  !!( Paging query logic)
+        List<Long> ids = new ArrayList<>(typedTuples.size());
+        long minTime = 0;
+        int os = 1;
+        for(ZSetOperations.TypedTuple<String> tuple : typedTuples) {
+            //get id
+            ids.add(Long.valueOf(tuple.getValue()));
+            //get score
+            Long time = tuple.getScore().longValue();
+            if (time == minTime) {
+                os++;
+
+            } else {
+                    minTime = time;
+            os = 1;
+        }
+
+        }
+
+        //Query the blog by id
+        String idStr = StrUtil.join(",", ids);
+        List<Blog> blogs = query().in("id", ids).last("ORDER BY FIELD(id," + idStr + ")").list();
+
+        for(Blog blog : blogs) {
+            //Query blog of user
+            queryBlogUser(blog);
+
+            //Query whether the blog is liked
+            isBlogLiked(blog);
+        }
+
+        //Wrapper  and return
+
+        ScrollResult r = new ScrollResult();
+        r.setList(blogs);
+        r.setOffset(os);
+        r.setMinTime(minTime);
+        return Result.ok(r);
     }
 
     private void queryBlogUser(Blog blog) {

@@ -1,22 +1,18 @@
 package org.example.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.example.dto.Result;
 import org.example.dto.UserDTO;
 import org.example.entity.Follow;
-import org.example.entity.User;
 import org.example.mapper.FollowMapper;
 import org.example.service.IFollowService;
 import org.example.utils.UserHolder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.KeyBoundCursor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.security.Key;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -45,7 +41,7 @@ public class FollowServiceImpl extends ServiceImpl<FollowMapper, Follow> impleme
         //1:Determine the logic of following and unfollowing
         if (isFollow) {
             //2:following, Insert new data
-            Follow follow = new Follow();
+            Follow follow = new Follow(userId, 3L);
             follow.setUserId(userId);
             follow.setFollowUserId(followUserId);
             boolean isSucces = save(follow);

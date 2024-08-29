@@ -29,6 +29,6 @@ public class Follow implements Serializable {
     private LocalDateTime createTime;
 
 
-
-
+    public Follow(Long userId, long l) {
+    }
 }
