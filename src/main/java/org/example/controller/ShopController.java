@@ -43,12 +43,16 @@ public class ShopController {
 
     @GetMapping("/of/Type")
     public Result queryShopByName(@RequestParam(value = "TypeId", required = false) Integer typeId,
-                                  @RequestParam(value = "current",defaultValue = "1") Integer current
+                                  @RequestParam(value = "current",defaultValue = "1") Integer current,
+                                  @RequestParam("x") Double x,
+                                  @RequestParam("y") Double y
                                   ){
 
-        Page<Shop> page = shopService.query().eq("type_id", typeId).page(new Page<>(current, SystemConstants.MAX_PAGE_SIZE));
+//        Page<Shop> page = shopService.query().eq("type_id", typeId).page(new Page<>(current, SystemConstants.MAX_PAGE_SIZE));
+//
+//        return Result.ok(page.getRecords());
 
-        return Result.ok(page.getRecords());
+         return  shopService.queryShopByType(typeId, current, x, y);
 
     }
 
